@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jay Krisell — Robotics &amp; Embedded Systems</title>
+    <meta name="description" content="Jay Krisell — Electrical Engineer, Graduate Researcher, and Founder specializing in robotics, reinforcement learning, and embedded motor control.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="css/font-awesome/css/all.min.css?ver=1.2.2" rel="stylesheet">
+    <link href="css/mdb.min.css?ver=1.2.2" rel="stylesheet">
+    <link href="css/aos.css?ver=1.2.2" rel="stylesheet">
+    <noscript>
+      <style>[data-aos]{opacity:1!important;transform:translate(0) scale(1)!important;}</style>
+    </noscript>
+    <style>
+      /* ═══════════════════════════════════════
+         DESIGN SYSTEM
+         ═══════════════════════════════════════ */
+      :root {
+        --bg: #fafafa;
+        --surface: #ffffff;
+        --ink: #0f172a;
+        --ink-2: #334155;
+        --ink-3: #64748b;
+        --ink-4: #94a3b8;
+        --border: #e2e8f0;
+        --accent: #9D2235;
+        --accent-light: #FDF2F4;
+        --accent-subtle: #E8B4BC;
+        --navy: #0f172a;
+        --navy-mid: #1e293b;
+        --mono: 'JetBrains Mono', monospace;
+        --sans: 'DM Sans', system-ui, sans-serif;
+        --radius: 12px;
+        --shadow: 0 1px 3px rgba(15,23,42,0.04), 0 4px 12px rgba(15,23,42,0.06);
+        --shadow-lg: 0 4px 16px rgba(15,23,42,0.08), 0 12px 40px rgba(15,23,42,0.06);
+      }
+
+      *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+      html { scroll-behavior: smooth; overflow-x: hidden; }
+      body {
+        font-family: var(--sans);
+        background: var(--bg);
+        color: var(--ink-2);
+        font-size: 15px;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── NAVIGATION ── */
+      .site-nav-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: rgba(15,23,42,0.92);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        transition: background 0.3s, box-shadow 0.3s;
+      }
+      .site-nav-bar.scrolled {
+        background: rgba(15,23,42,0.97);
+        box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+      }
+      .nav-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 56px;
+      }
+      .nav-brand {
+        font-weight: 700;
+        font-size: 1rem;
+        color: #fff;
+        text-decoration: none;
+        letter-spacing: 0.3px;
+      }
+      .nav-brand span { color: var(--accent); }
+      .nav-links { display: flex; gap: 0; list-style: none; }
+      .nav-links a {
+        display: block;
+        padding: 0 0.75rem;
+        color: rgba(255,255,255,0.55);
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        transition: color 0.2s;
+        line-height: 56px;
+      }
+      .nav-links a:hover { color: #fff; }
+
+      /* ── HERO ── */
+      .hero {
+        min-height: 100vh;
+        background: var(--navy);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 80% 50% at 50% -20%, rgba(234,88,12,0.08), transparent),
+          radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59,130,246,0.05), transparent);
+      }
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+      .hero-content {
+        position: relative;
+        text-align: center;
+        padding: 2rem 1.5rem;
+        max-width: 700px;
+      }
+      .hero-avatar {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid rgba(234,88,12,0.6);
+        margin-bottom: 1.5rem;
+        box-shadow: 0 0 0 8px rgba(234,88,12,0.08);
+      }
+      .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: -0.5px;
+        line-height: 1.1;
+        margin-bottom: 0.5rem;
+      }
+      .hero .subtitle {
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.5);
+        font-weight: 400;
+        margin-bottom: 0.25rem;
+      }
+      .hero .subtitle-small {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.3);
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+      }
+      .hero-social {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 1.75rem;
+      }
+      .hero-social a {
+        color: rgba(255,255,255,0.4);
+        font-size: 1.25rem;
+        transition: color 0.2s, transform 0.2s;
+        text-decoration: none;
+      }
+      .hero-social a:hover { color: var(--accent); transform: translateY(-2px); }
+      .hero-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+      .btn-h {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.6rem 1.5rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        letter-spacing: 0.3px;
+      }
+      .btn-primary-h {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+      }
+      .btn-primary-h:hover { background: #7A1A2A; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(234,88,12,0.3); }
+      .btn-outline-h {
+        background: transparent;
+        color: rgba(255,255,255,0.7);
+        border: 1px solid rgba(255,255,255,0.15);
+      }
+      .btn-outline-h:hover { color: #fff; border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); }
+
+      /* ── SECTIONS ── */
+      .section {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 5rem 1.5rem;
+      }
+      .section-label {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 0.25rem;
+      }
+      .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.3px;
+        line-height: 1.2;
+        margin-bottom: 2rem;
+      }
+
+      /* ── ABOUT ── */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: start;
+      }
+      .about-text p { margin-bottom: 1rem; color: var(--ink-2); }
+      .bio-table { width: 100%; }
+      .bio-table tr td {
+        padding: 0.4rem 0;
+        font-size: 0.9rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      .bio-table tr td:first-child {
+        font-weight: 600;
+        color: var(--ink);
+        width: 100px;
+        white-space: nowrap;
+        padding-right: 1rem;
+      }
+      .bio-table tr td:last-child { color: var(--ink-2); }
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+      .stat-box {
+        text-align: center;
+        padding: 1rem 0.5rem;
+        background: var(--accent-light);
+        border-radius: var(--radius);
+        border: 1px solid var(--accent-subtle);
+      }
+      .stat-box .num {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+      }
+      .stat-box .lbl {
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-top: 0.2rem;
+      }
+
+      /* ── SKILLS ── */
+      .skills-wrap {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 2.5rem;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+      }
+      .skill-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem 2.5rem;
+      }
+      .skill-item label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 0.3rem;
+      }
+      .skill-item label span { font-weight: 400; color: var(--ink-4); font-size: 0.8rem; }
+      .skill-bar {
+        height: 6px;
+        background: #f1f5f9;
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .skill-fill {
+        height: 100%;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--accent), #C74B5A);
+        transition: width 1.2s ease;
+      }
+      .tech-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+      }
+      .chip {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
+        background: var(--accent-light);
+        color: var(--accent);
+        border-radius: 4px;
+        font-weight: 500;
+        border: 1px solid var(--accent-subtle);
+      }
+
+      /* ── EXPERIENCE TIMELINE ── */
+      .exp-bg { background: var(--navy); padding: 5rem 0; }
+      .exp-bg .section-label { color: var(--accent-subtle); }
+      .exp-bg .section-title { color: #fff; }
+
+      .timeline-v {
+        position: relative;
+        padding-left: 32px;
+      }
+      .timeline-v::before {
+        content: '';
+        position: absolute;
+        left: 7px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: rgba(255,255,255,0.08);
+      }
+      .tl-item {
+        position: relative;
+        margin-bottom: 2rem;
+      }
+      .tl-item::before {
+        content: '';
+        position: absolute;
+        left: -32px;
+        top: 6px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--navy);
+        border: 3px solid var(--accent);
+        z-index: 1;
+      }
+      .tl-card {
+        background: var(--navy-mid);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        border: 1px solid rgba(255,255,255,0.06);
+        transition: border-color 0.3s, transform 0.2s;
+      }
+      .tl-card:hover {
+        border-color: rgba(234,88,12,0.2);
+        transform: translateX(4px);
+      }
+      .tl-role {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.3;
+      }
+      .tl-org {
+        font-size: 0.85rem;
+        color: var(--accent);
+        font-weight: 500;
+        margin-bottom: 0.15rem;
+      }
+      .tl-meta {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.3);
+        margin-bottom: 0.75rem;
+      }
+      .tl-body {
+        font-size: 0.88rem;
+        color: rgba(255,255,255,0.55);
+        line-height: 1.7;
+      }
+
+      /* ── EDUCATION ── */
+      .edu-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .edu-card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .edu-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+      .edu-card .degree {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.3;
+      }
+      .edu-card .school {
+        font-size: 0.85rem;
+        color: var(--accent);
+        font-weight: 500;
+      }
+      .edu-card .date {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--ink-4);
+        margin-bottom: 0.35rem;
+      }
+      .edu-card .note { font-size: 0.82rem; color: var(--ink-3); }
+
+      /* ── PROJECTS ── */
+      .proj-featured {
+        background: var(--surface);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .proj-featured:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+      .proj-featured .proj-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+      }
+      .proj-featured.reverse .proj-inner { direction: rtl; }
+      .proj-featured.reverse .proj-inner > * { direction: ltr; }
+      .proj-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+      }
+      .proj-info { padding: 2rem; }
+      .proj-info .proj-tech {
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+      .proj-info h3 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 0.5rem;
+        line-height: 1.3;
+      }
+      .proj-info p { font-size: 0.88rem; color: var(--ink-3); }
+      .proj-info .proj-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin-top: 0.75rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--accent);
+        text-decoration: none;
+        transition: gap 0.2s;
+      }
+      .proj-info .proj-link:hover { gap: 0.6rem; }
+
+      .proj-small-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .proj-small {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .proj-small:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+      .proj-small h4 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 0.35rem;
+      }
+      .proj-small p { font-size: 0.82rem; color: var(--ink-3); margin-bottom: 0.5rem; }
+      .proj-small .chip-row { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+
+      /* ── REFERENCES ── */
+      .ref-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      .ref-card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1.75rem;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        position: relative;
+      }
+      .ref-card::before {
+        content: '\201C';
+        position: absolute;
+        top: 0.75rem;
+        right: 1.25rem;
+        font-size: 3rem;
+        color: var(--accent-subtle);
+        font-family: Georgia, serif;
+        line-height: 1;
+      }
+      .ref-card .ref-text {
+        font-size: 0.95rem;
+        color: var(--ink-2);
+        font-style: italic;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+      .ref-card .ref-author {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .ref-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--navy);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+      }
+      .ref-name { font-weight: 700; font-size: 0.9rem; color: var(--ink); }
+      .ref-title-text { font-size: 0.75rem; color: var(--ink-4); }
+
+      /* ── CONTACT ── */
+      .contact-bg { background: var(--navy); padding: 5rem 0; }
+      .contact-bg .section-label { color: var(--accent-subtle); }
+      .contact-bg .section-title { color: #fff; }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 3rem;
+        align-items: start;
+      }
+      .contact-info .ci-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+      }
+      .contact-info .ci-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(234,88,12,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        font-size: 0.85rem;
+        flex-shrink: 0;
+      }
+      .contact-info .ci-text { font-size: 0.9rem; color: rgba(255,255,255,0.7); }
+      .contact-info .ci-text a { color: rgba(255,255,255,0.7); text-decoration: none; }
+      .contact-info .ci-text a:hover { color: var(--accent); }
+      .contact-map {
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+      .contact-map iframe { display: block; width: 100%; height: 350px; border: 0; }
+
+      /* ── FOOTER ── */
+      .site-footer {
+        background: #0c111d;
+        text-align: center;
+        padding: 2rem 1.5rem;
+        border-top: 1px solid rgba(255,255,255,0.04);
+      }
+      .site-footer .f-name {
+        font-weight: 700;
+        color: #fff;
+        font-size: 1rem;
+      }
+      .site-footer .f-sub {
+        font-size: 0.8rem;
+        color: rgba(255,255,255,0.3);
+        margin-top: 0.15rem;
+      }
+      .site-footer .f-social {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 0.75rem;
+      }
+      .site-footer .f-social a {
+        color: rgba(255,255,255,0.3);
+        font-size: 1.1rem;
+        transition: color 0.2s;
+        text-decoration: none;
+      }
+      .site-footer .f-social a:hover { color: var(--accent); }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 768px) {
+        .nav-links { display: none; }
+        .hero h1 { font-size: 2rem; }
+        .about-grid, .skill-grid, .edu-grid, .proj-small-grid, .ref-grid, .contact-grid { grid-template-columns: 1fr; }
+        .proj-featured .proj-inner { grid-template-columns: 1fr; }
+        .proj-img { height: 200px; }
+        .stat-row { grid-template-columns: repeat(3, 1fr); }
+        .section { padding: 3rem 1rem; }
+      }
+
+      @media print {
+        .site-nav-bar, .hero-btns, .hero-social, .site-footer { display: none; }
+        .hero { min-height: auto; padding: 2rem 0; }
+        .section { padding: 1.5rem 0; }
+        .exp-bg, .contact-bg { background: #fff; padding: 1.5rem 0; }
+        .exp-bg .section-title, .contact-bg .section-title { color: var(--ink); }
+        .tl-card { background: #fff; border-color: var(--border); }
+        .tl-role { color: var(--ink); }
+        .tl-body { color: var(--ink-2); }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <nav class="site-nav-bar" id="siteNav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="#top">Jay<span>.</span>Krisell</a>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#references">References</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-grid"></div>
+      <div class="hero-content">
+        <img class="hero-avatar" src="images/avatar.jpg" alt="Jay Krisell" data-aos="zoom-in">
+        <h1 data-aos="fade-up" data-aos-delay="100">Jay C. Krisell</h1>
+        <div class="subtitle" data-aos="fade-up" data-aos-delay="200">Electrical Engineer &mdash; Robotics &amp; Embedded Systems</div>
+        <div class="subtitle-small" data-aos="fade-up" data-aos-delay="250">Graduate Researcher &middot; University of Arkansas</div>
+        <div class="hero-social" data-aos="fade-up" data-aos-delay="300">
+          <a href="https://www.linkedin.com/in/jay-krisell-b65872224/" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="https://github.com/SpaceCadetJ" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+        <div class="hero-btns" data-aos="fade-up" data-aos-delay="400">
+          <a class="btn-h btn-primary-h" href="Jay_Krisell_CV_2025.pdf"><i class="fas fa-download" style="font-size:0.75rem"></i> Download CV</a>
+          <a class="btn-h btn-outline-h" href="#contact">Get In Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="section-label" data-aos="fade-up">// About</div>
+      <div class="section-title" data-aos="fade-up">Who I Am</div>
+      <div class="about-grid">
+        <div class="about-text" data-aos="fade-up" data-aos-delay="100">
+          <p>I'm a graduate researcher at the University of Arkansas Cognitive Robotics Lab and the founder of Kinetic Intelligence Labs. My work sits at the intersection of reinforcement learning, embedded control systems, and robotic actuator design.</p>
+          <p>Before grad school, I spent six years as an Army aviation electrician maintaining helicopter avionics on UH-60 and UH-72 airframes, which gave me a deep respect for safety-critical systems and rigorous test procedures.</p>
+          <p>My goal is to bridge the gap between academic robotics research and commercially viable robotic hardware &mdash; bringing RL-trained motor control from simulation to production-grade embedded systems.</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="200">
+          <table class="bio-table">
+            <tr><td>Email</td><td>jaykrisell@outlook.com</td></tr>
+            <tr><td>Phone</td><td>(501) 269-5750</td></tr>
+            <tr><td>Location</td><td>Fayetteville, AR</td></tr>
+            <tr><td>Program</td><td>M.S.E.E. (In Progress)</td></tr>
+            <tr><td>Lab</td><td>Cognitive Robotics Lab</td></tr>
+            <tr><td>Advisor</td><td>Dr. Tuan Dang</td></tr>
+          </table>
+          <div class="stat-row">
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="250">
+              <div class="num">6</div><div class="lbl">Years Army</div>
+            </div>
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="300">
+              <div class="num">88</div><div class="lbl">TITAN Parts</div>
+            </div>
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="350">
+              <div class="num">24</div><div class="lbl">DoF Humanoid</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <div class="section-label" data-aos="fade-up">// Skills</div>
+      <div class="section-title" data-aos="fade-up">Technical Proficiency</div>
+      <div class="skills-wrap" data-aos="fade-up" data-aos-delay="100">
+        <div class="skill-grid">
+          <div class="skill-item">
+            <label>PCB Design<span>KiCad / Allegro</span></label>
+            <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+          </div>
+          <div class="skill-item">
+            <label>SMD Soldering<span>Rework / QFN</span></label>
+            <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+          </div>
+          <div class="skill-item">
+            <label>Python<span>PyTorch / RL</span></label>
+            <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-item">
+            <label>MATLAB<span>Simulink</span></label>
+            <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+          </div>
+          <div class="skill-item">
+            <label>C/C++<span>Embedded / STM32</span></label>
+            <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+          </div>
+          <div class="skill-item">
+            <label>FOC / BLDC<span>Motor Control</span></label>
+            <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-item">
+            <label>ROS2 / Gazebo<span>IsaacGym</span></label>
+            <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+          </div>
+          <div class="skill-item">
+            <label>Circuit Debug<span>Test Equipment</span></label>
+            <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+          </div>
+        </div>
+        <div class="tech-cloud">
+          <span class="chip">Python</span><span class="chip">C/C++</span><span class="chip">MATLAB</span>
+          <span class="chip">PyTorch</span><span class="chip">PPO</span><span class="chip">AWR</span>
+          <span class="chip">ROS2</span><span class="chip">Gazebo</span><span class="chip">IsaacGym</span>
+          <span class="chip">KiCad</span><span class="chip">Allegro</span><span class="chip">STM32</span>
+          <span class="chip">FOC</span><span class="chip">DRV8353</span><span class="chip">CAN</span>
+          <span class="chip">LoRa</span><span class="chip">SPI</span><span class="chip">I2C</span>
+          <span class="chip">Git</span><span class="chip">Linux</span><span class="chip">Docker</span>
+          <span class="chip">URDF</span><span class="chip">SMD</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <div class="exp-bg" id="experience">
+      <div class="section" style="padding-top:0;padding-bottom:0;">
+        <div class="section-label" data-aos="fade-up">// Experience</div>
+        <div class="section-title" data-aos="fade-up">Work History</div>
+        <div class="timeline-v">
+
+          <div class="tl-item" data-aos="fade-up" data-aos-delay="0">
+            <div class="tl-card">
+              <div class="tl-role">Graduate Research Assistant</div>
+              <div class="tl-org">Cognitive Robotics Lab — University of Arkansas</div>
+              <div class="tl-meta">Jan 2025 – Present &middot; Fayetteville, AR</div>
+              <div class="tl-body">Conducting reinforcement learning research under Dr. Tuan Dang, comparing PPO and AWR policy optimization for motion imitation in humanoid robots. Deploying simulation environments in NVIDIA IsaacGym and MimicKit for physics-based motion capture replay. Developing custom reward functions and training pipelines using PyTorch-based RL frameworks.</div>
+            </div>
+          </div>
+
+          <div class="tl-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="tl-card">
+              <div class="tl-role">Aviation Electrician (15F) — Sergeant</div>
+              <div class="tl-org">U.S. Army National Guard</div>
+              <div class="tl-meta">Dec 2019 – Dec 2025 &middot; Camp Robinson, AR</div>
+              <div class="tl-body">Led avionics maintenance on UH-60 and UH-72 airframes: sensors, communications, imaging systems, and IVHMS. Supervised maintenance teams and maintained readiness documentation as NCO. Completed 7-month AIT at JBLE Fort Eustis covering UH-60/CH-47 helicopter avionics systems.</div>
+            </div>
+          </div>
+
+          <div class="tl-item" data-aos="fade-up" data-aos-delay="200">
+            <div class="tl-card">
+              <div class="tl-role">Quality Engineer Co-Op</div>
+              <div class="tl-org">Bosch (Electro-Voice R&amp;D)</div>
+              <div class="tl-meta">Jul 2023 – Dec 2023 &middot; Burnsville, MN</div>
+              <div class="tl-body">Designed and validated prototype electronics and automated reliability tests for high-end loudspeakers. Conducted DSP, endurance, stress, and frequency response testing in anechoic chambers using laser vibrometry. Coordinated with customers on purchase orders and quality constraints.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <section class="section" id="education">
+      <div class="section-label" data-aos="fade-up">// Education</div>
+      <div class="section-title" data-aos="fade-up">Academic Background</div>
+      <div class="edu-grid">
+        <div class="edu-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="date">2025 – Present</div>
+          <div class="degree">M.S. Electrical Engineering</div>
+          <div class="school">University of Arkansas — Fayetteville</div>
+          <div class="note">Cognitive Robotics Lab · Reinforcement learning, robotic control, embedded intelligence</div>
+        </div>
+        <div class="edu-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="date">2021 – 2025</div>
+          <div class="degree">B.S. Electrical Engineering</div>
+          <div class="school">University of Arkansas — Fayetteville</div>
+          <div class="note">Circuit design, robotics, control systems</div>
+        </div>
+        <div class="edu-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="date">2020 – 2021</div>
+          <div class="degree">Helicopter Avionics AIT (15F)</div>
+          <div class="school">JBLE Fort Eustis — U.S. Army</div>
+          <div class="note">7-month advanced training · Aviation maintainer certification</div>
+        </div>
+        <div class="edu-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="date">2018 – 2020</div>
+          <div class="degree">Associate of Arts</div>
+          <div class="school">University of Arkansas — Little Rock</div>
+          <div class="note">Concurrent enrollment · Top 5% of HS class</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="section-label" data-aos="fade-up">// Projects</div>
+      <div class="section-title" data-aos="fade-up">Featured Work</div>
+
+      <!-- KIL / TITAN FOC -->
+      <div class="proj-featured" data-aos="fade-up" data-aos-delay="0">
+        <div class="proj-inner">
+          <img class="proj-img" src="images/project-1.jpg" alt="TITAN FOC">
+          <div class="proj-info">
+            <div class="proj-tech">KiCad &middot; STM32G474 &middot; DRV8353RS &middot; 6-Layer PCB</div>
+            <h3>Kinetic Intelligence Labs — TITAN FOC v8.2</h3>
+            <p>Custom 50.25mm circular brushless motor controller for robotic actuators. 88 components, $32.39 BOM, hierarchical schematic architecture. Founded KIL to commercialize FOC controllers and RL-based training systems for robotics and EV markets.</p>
+            <a class="proj-link" href="https://spacecadetj.github.io/kil-website/">Visit KIL Website &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RL Research -->
+      <div class="proj-featured reverse" data-aos="fade-up" data-aos-delay="100">
+        <div class="proj-inner">
+          <img class="proj-img" src="images/project-2.jpg" alt="RL Motion Imitation">
+          <div class="proj-info">
+            <div class="proj-tech">PyTorch &middot; IsaacGym &middot; MimicKit &middot; PPO &middot; AWR</div>
+            <h3>RL Motion Imitation Research</h3>
+            <p>Comparing Proximal Policy Optimization and Advantage-Weighted Regression for humanoid motion imitation in NVIDIA IsaacGym. Physics-based simulation with MimicKit motion capture replay.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boat Fleet -->
+      <div class="proj-featured" data-aos="fade-up" data-aos-delay="200">
+        <div class="proj-inner">
+          <img class="proj-img" src="images/project-3.jpg" alt="LoRa Boat Fleet">
+          <div class="proj-info">
+            <div class="proj-tech">STM32F446 &middot; LoRa Mesh &middot; GPS &middot; CAN Bus</div>
+            <h3>LoRa Autonomous RC Boat Fleet</h3>
+            <p>Custom control boards with LoRa mesh networking, GPS waypoint navigation, CAN bus telemetry, and multi-agent formation control for coordinated autonomous surface vehicles.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smaller projects -->
+      <div class="proj-small-grid" style="margin-top:1rem;">
+        <div class="proj-small" data-aos="fade-up" data-aos-delay="0">
+          <h4><a href="https://github.com/SpaceCadetJ" style="color:inherit;text-decoration:none;">Humanoid Robot Simulation</a></h4>
+          <p>24-DoF humanoid in ROS2/Gazebo with URDF, TF transforms, C++/Python controller nodes, joint trajectory control, and mission replay.</p>
+          <div class="chip-row">
+            <span class="chip">ROS2</span><span class="chip">Gazebo</span><span class="chip">URDF</span><span class="chip">C++</span>
+          </div>
+        </div>
+        <div class="proj-small" data-aos="fade-up" data-aos-delay="100">
+          <h4><a href="https://github.com/SpaceCadetJ" style="color:inherit;text-decoration:none;">Robotic Arm Simulator &amp; GUI</a></h4>
+          <p>Adjustable-DOF arm simulator with Tkinter GUI for full ROM remote control, IK/FK, tool position tracking, and object interaction.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span><span class="chip">Tkinter</span><span class="chip">IK/FK</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REFERENCES -->
+    <section class="section" id="references">
+      <div class="section-label" data-aos="fade-up">// References</div>
+      <div class="section-title" data-aos="fade-up">What Others Say</div>
+      <div class="ref-grid">
+        <div class="ref-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="ref-text">Jay is extremely determined and diligent in his work. His ability to take on complex technical challenges and see them through is exceptional.</div>
+          <div class="ref-author">
+            <div class="ref-avatar">MK</div>
+            <div>
+              <div class="ref-name">Mike Kieffer</div>
+              <div class="ref-title-text">Director of Project Management, Keenfinity</div>
+            </div>
+          </div>
+        </div>
+        <div class="ref-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="ref-text">A dependable leader with strong technical skills and a deep sense of accountability. Jay consistently performed above expectations in demanding operational environments.</div>
+          <div class="ref-author">
+            <div class="ref-avatar">BD</div>
+            <div>
+              <div class="ref-name">SFC Brandon Dostert</div>
+              <div class="ref-title-text">Readiness NCO, 1-185th C-Co — AR National Guard</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <div class="contact-bg" id="contact">
+      <div class="section" style="padding-top:0;padding-bottom:0;">
+        <div class="section-label" data-aos="fade-up">// Contact</div>
+        <div class="section-title" data-aos="fade-up">Let's Connect</div>
+        <div class="contact-grid">
+          <div class="contact-info" data-aos="fade-up" data-aos-delay="100">
+            <div class="ci-item">
+              <div class="ci-icon"><i class="fas fa-phone"></i></div>
+              <div class="ci-text">501-269-5750</div>
+            </div>
+            <div class="ci-item">
+              <div class="ci-icon"><i class="far fa-envelope"></i></div>
+              <div class="ci-text"><a href="mailto:jaykrisell@outlook.com">jaykrisell@outlook.com</a></div>
+            </div>
+            <div class="ci-item">
+              <div class="ci-icon"><i class="fab fa-linkedin"></i></div>
+              <div class="ci-text"><a href="https://www.linkedin.com/in/jay-krisell-b65872224/">LinkedIn Profile</a></div>
+            </div>
+            <div class="ci-item">
+              <div class="ci-icon"><i class="fab fa-github"></i></div>
+              <div class="ci-text"><a href="https://github.com/SpaceCadetJ">github.com/SpaceCadetJ</a></div>
+            </div>
+            <div class="ci-item">
+              <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="ci-text">Fayetteville, AR</div>
+            </div>
+          </div>
+          <div class="contact-map" data-aos="fade-up" data-aos-delay="200">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52073.85897285036!2d-94.20832237832031!3d36.06265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87c96f51843afbd1%3A0x39c0d922745b2e24!2sFayetteville%2C%20AR!5e0!3m2!1sen!2sus!4v1614183731149!5m2!1sen!2sus" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="f-name">Jay Krisell</div>
+      <div class="f-sub">Electrical Engineer &mdash; Robotics &amp; Embedded Systems</div>
+      <div class="f-social">
+        <a href="https://www.linkedin.com/in/jay-krisell-b65872224/"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/SpaceCadetJ"><i class="fab fa-github"></i></a>
+      </div>
+    </footer>
+
+    <script src="scripts/aos.js?ver=1.2.2"></script>
+    <script>
+      // Init AOS
+      AOS.init({
+        duration: 700,
+        easing: 'ease-out-cubic',
+        once: true,
+        offset: 60
+      });
+
+      // Scrolled nav
+      const nav = document.getElementById('siteNav');
+      window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 40);
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const target = document.querySelector(a.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            const offset = 56;
+            const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
